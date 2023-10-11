@@ -1,7 +1,5 @@
 import { capitalize, Context, isInteger, Session } from 'koishi'
 import {} from '@koishijs/plugin-help'
-import _chapters from './data/chapters.yml'
-import _questions from './data/questions.yml'
 
 declare module 'koishi' {
   interface User {
@@ -37,7 +35,7 @@ export interface Question {
 }
 
 const hasHidden = [1, 3, 5, 7, 9, 13, 17]
-export const chapters: Chapter[] = _chapters
+export const chapters: Chapter[] = require('./data/chapters')
 export const chapterMap: Record<string, Chapter> = {}
 export const questions: Record<number, Question[]> = {}
 export const questionMap: Record<string, Question> = {}
@@ -59,7 +57,7 @@ function isLocked(inference: string[], chapId: string) {
     || chapId.endsWith('.5') && !countUnlocked(inference, +chapId.slice(0, -2))
 }
 
-_questions.forEach((question: Question) => {
+require('./data/questions').forEach((question: Question) => {
   const chapter = question.chapter = parseFloat(question.id)
   if (!questions[chapter]) questions[chapter] = []
   questionMap[question.id] = question
@@ -189,7 +187,7 @@ export function apply(ctx: Context) {
     inference: 'list',
   })
 
-  ctx.command('inference [id:string] [words:text] 英语推断题')
+  ctx.command('inference [id:string] [words:text]', '专业术语推断题')
     .alias('inf', 'tdt')
     .userFields(['id', /* 'achievement', 'money', 'wealth', 'timers', */ 'inference', 'name', 'authority'])
     .shortcut('推断题', { fuzzy: true })
