@@ -243,7 +243,7 @@ export function apply(ctx: Context) {
           if (chapter.id === 'Chapter-0') {
             const { length } = inference.filter(id => id.startsWith('0-'))
             if (length < output.length) {
-              message = '（请完成更多题目解锁后续剧情）\n' + message
+              message = ' (请完成更多题目解锁后续剧情)\n' + message
               output.splice(length + 1, Infinity)
             }
           }
@@ -326,7 +326,7 @@ export function apply(ctx: Context) {
           ? `线索：${clue}${category ? `（${category}）` : ''}`
           : category)
         if (options.solution) output.unshift(`答案：${answer}${info ? ` (${info})` : ''} ${meaning}`)
-        output.unshift(`问题 ${input}${answered ? '（已作答）' : ''}`)
+        output.unshift(`问题 ${input}${answered ? ' (已作答)' : ''}`)
         if (comment) output.push('注：' + comment)
         await session.send(output.join('\n'))
         if (options.solution && solution) await session.send(solution.join('\n'))
